@@ -90,30 +90,6 @@ inline std::uint64_t get_piece(const Position& b, const Piece p, const Colour c)
     return get_piece(b, p) & get_colour(b, c);
 }
 
-/* Set a bit in a piece bitboard. */
-inline void set_bit(Position& b, const Piece p, const Square sq)
-{
-    b.pieces[p] |= 1ULL << sq;
-}
-
-/* Set a bit in a colour bitboard. */
-inline void set_bit(Position& b, const Colour c, const Square sq)
-{
-    b.colours[c] |= 1ULL << sq;
-}
-
-/* Clear a bit in a piece bitboard. */
-inline void clear_bit(Position& b, const Piece p, const Square sq)
-{
-    b.pieces[p] &= ~(1ULL << sq);
-}
-
-/* Clear a bit in a colour bitboard. */
-inline void clear_bit(Position& b, const Colour c, const Square sq)
-{
-    b.colours[c] &= ~(1ULL << sq);
-}
-
 /* Updates the position by moving piece from 'from' to 'to' */
 inline void move_piece(Position& pos, const Square from, const Square to,
                       const Piece piece, const Colour colour)

@@ -201,22 +201,22 @@ void print_position_struct(const Position &pos)
     }
 
     printf("Positions of our pieces:\n");
-    PRINT_BITBOARD(pos.colours[US]);
+    PRINT_BITBOARD(get_colour(pos, US));
 
     printf("Positions of their pieces:\n");
-    PRINT_BITBOARD(pos.colours[THEM]);
+    PRINT_BITBOARD(get_colour(pos, THEM));
 
     //printf("Side to move is: %s\n\n", (pos.flipped == true) ? "THEM" : "US");
 
-    if ((pos.castle & (1 << 3)))
-        printf("White king can castle kingside\n");
-    if ((pos.castle & (1 << 2)))
-        printf("White king can castle queenside\n");
+    if (pos.castle & US_OO)
+        printf("Friendly king can castle kingside\n");
+    if (pos.castle & US_OOO)
+        printf("Friendly king can castle queenside\n");
 
-    if ((pos.castle & (1 << 1)))
-        printf("Black king can castle kingside\n");
-    if ((pos.castle & (1 << 0)))
-        printf("Black king can castle queenside\n");
+    if (pos.castle & THEM_OO)
+        printf("Enemy king can castle kingside\n");
+    if (pos.castle & THEM_OO)
+        printf("Enemy king can castle queenside\n");
 
     if (pos.epsq != INVALID_SQUARE)
         printf("\nEn passant square is: %u\n", (unsigned int)pos.epsq);
