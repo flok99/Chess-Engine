@@ -22,17 +22,22 @@
  * SOFTWARE.
  */
 
+#include <chrono>
+#include <iostream>
+
 #include <cinttypes>
+#include <cstdio>
 
 #include "position.h"
 #include "bitboard.h"
 #include "move.h"
 
-std::uint64_t perft(const Position& pos, int depth)
+std::uint64_t perft(const Position& pos, int depth, bool divide)
 {
     int movecount, i;
-    uint64_t nodes = 0;
+    uint64_t nodes = 0, tmp;
     Move ml[256];
+    char str[5];
 
     if (depth == 0) {
         return 1;
@@ -48,7 +53,16 @@ std::uint64_t perft(const Position& pos, int depth)
         if (is_checked(npos, THEM))
             continue;
 
-        nodes += perft(npos, depth - 1);
+        if (divide) {
+            move_to_lan(str, ml[i]);
+            printf("%s", str);
+        }
+
+        nodes += tmp = perft(npos, depth - 1, false);
+
+        if (divide) {
+            printf(" %llu\n", tmp);
+        }
     }
 
     return nodes;
@@ -57,12 +71,24 @@ std::uint64_t perft(const Position& pos, int depth)
 void run_perft_tests()
 {
     int i;
-
     Position pos;
+    std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
+    std::chrono::duration<double> elapsed;
 
-    parse_fen_to_position((const char*)"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1", pos);
+    parse_fen_to_position((const char*)"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", pos);
+
+    print_position_struct(pos);
+
+    start = std::chrono::high_resolution_clock::now();
 
     for (i = 1; i <= 6; i++) {
-        std::printf("Perft(%d) = %" PRIu64 "\n", i, perft(pos, i));
+        end = std::chrono::high_resolution_clock::now();
+
+        std::uint64_t result = perft(pos, i, true);
+
+        elapsed = end - start;
+
+        std::printf("Perft(%d) = %" PRIu64 "\n", i, result);
+        std::cout << "Time taken: " << elapsed.count() << "s" << std::endl;
     }
 }

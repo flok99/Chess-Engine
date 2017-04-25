@@ -280,6 +280,7 @@ inline void flip_position(Position& pos)
     pos.flipped = !pos.flipped;
 }
 
+extern void print_position_struct(const Position &pos);
 extern std::uint64_t perft(const Position& pos, int depth);
 extern void run_perft_tests();
 
