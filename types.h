@@ -76,6 +76,11 @@ enum Phase {
     OPENING, ENDGAME
 };
 
+/* Quad bitboard names. */
+enum QBBNames {
+    PBQ, NBK, RQK, STM
+};
+
 #define ENABLE_OPERATIONS(T)                                                   \
 constexpr inline T operator+(T l, T r)   { return T((int)(l) + (int)(r)); }    \
 constexpr inline T operator+(T l, int r) { return T((int)(l) + r);        }    \

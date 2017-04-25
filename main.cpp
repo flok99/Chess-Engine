@@ -37,14 +37,14 @@ int main()
 {
     init_bitboards();
 
-    Position pos;
+    //Position pos;
     //parse_fen_to_position("3q3k/1Q4R1/2pNB2p/2Pp3n/8/6P1/3r2r1/7K b - - 3 38", pos);
-    parse_fen_to_position("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", pos);
-    start_search(pos);
+    //parse_fen_to_position("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", pos);
+    //start_search(pos);
 
     //run_move_to_lan_tests();
     //run_fen_parser_tests();
-    //run_perft_tests();
+    run_perft_tests();
 
     return 0;
 }

@@ -71,7 +71,7 @@ void parse_fen_to_position(const char *fen_str, Position &pos)
     std::size_t i = 0, square_idx = 0;
     char c;
 
-    std::memset(&pos, 0, ( sizeof(((Position*)0)->pieces) + sizeof(((Position*)0)->colours) ));
+    std::memset(&pos, 0, sizeof(((Position*)0)->bitboards));
 
     while (square_idx < ARR_LEN(fen_board)) {
 
@@ -192,12 +192,12 @@ void parse_fen_to_position(const char *fen_str, Position &pos)
 void print_position_struct(const Position &pos)
 {
     const char *piece_name[] = {
-        "PAWN", "KNIGHT", "BISHOP", "ROOK", "QUEEN", "KING"
+        "PAWN/BISHOP/QUEEN", "KNIGHT/BISHOP/KING", "ROOK/QUEEN/KING"
     };
 
-    for (unsigned char p = PAWN; p <= KING; p++) {
+    for (unsigned char p = PBQ; p <= RQK; p++) {
         printf("%s positions:\n", piece_name[p]);
-        PRINT_BITBOARD(pos.pieces[p]);
+        PRINT_BITBOARD(pos.bitboards[p]);
     }
 
     printf("Positions of our pieces:\n");
@@ -209,14 +209,19 @@ void print_position_struct(const Position &pos)
     //printf("Side to move is: %s\n\n", (pos.flipped == true) ? "THEM" : "US");
 
     if (pos.castle & US_OO)
-        printf("Friendly king can castle kingside\n");
+        printf("K");
     if (pos.castle & US_OOO)
-        printf("Friendly king can castle queenside\n");
+        printf("Q");
 
     if (pos.castle & THEM_OO)
-        printf("Enemy king can castle kingside\n");
+        printf("k");
     if (pos.castle & THEM_OO)
-        printf("Enemy king can castle queenside\n");
+        printf("q");
+
+    if (!pos.castle)
+        printf("-");
+
+    printf("\n");
 
     if (pos.epsq != INVALID_SQUARE)
         printf("\nEn passant square is: %u\n", (unsigned int)pos.epsq);
