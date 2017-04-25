@@ -146,6 +146,9 @@ inline void move_piece(Position& pos, const Square from, const Square to,
         pos.bitboards[NBK] ^= from_to;
         pos.bitboards[RQK] ^= from_to;
         break;
+    case NO_PIECE:
+        // ???
+        break;
     }
     if (colour == US)
         pos.bitboards[STM] ^= from_to;
@@ -180,6 +183,9 @@ inline void put_piece(Position& pos, const Square to, const Piece piece,
         pos.bitboards[NBK] |= to_bit;
         pos.bitboards[RQK] |= to_bit;
         break;
+    case NO_PIECE:
+        // ???
+        break;
     }
     if (colour == US)
         pos.bitboards[STM] |= to_bit;
@@ -212,6 +218,9 @@ inline void remove_piece(Position& pos, const Square from, const Piece piece,
     case KING:
         pos.bitboards[NBK] &= ~from_bit;
         pos.bitboards[RQK] &= ~from_bit;
+        break;
+    case NO_PIECE:
+        // ???
         break;
     }
 
