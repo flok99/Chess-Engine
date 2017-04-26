@@ -59,11 +59,11 @@ inline Piece get_piece_on_square(const Position& pos, const std::uint64_t sq)
         ROOK, QUEEN, KING, NO_PIECE
     };
 
-    uint64_t piece =  (pos.bitboards[PBQ] & sq)       |
-                     ((pos.bitboards[NBK] & sq) << 1) |
-                     ((pos.bitboards[RQK] & sq) << 2);
+    int square = lsb(sq);
 
-    piece >>= lsb(sq);
+    uint64_t piece =  ((pos.bitboards[PBQ] >> square) & 1)       |
+                     (((pos.bitboards[NBK] >> square) & 1) << 1) |
+                     (((pos.bitboards[RQK] >> square) & 1) << 2);
 
     return from_qbb[piece];
 }
